@@ -5,7 +5,14 @@ import './App.css';
 
 class App extends Component {
 
-    getPizzas = () => {
+
+  componentDidMount() {
+    this.getMessages();
+  }
+  
+  
+  getMessages = () => {
+      console.log('In getMessages');
       axios.get('/messages').then(response => {
         this.props.dispatch({
           type: 'SET_MESSAGES',
@@ -20,6 +27,15 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Hi there!</h1>
+
+
+
+        <ul>
+        {this.props.reduxStore.messageReducer.map(message => {
+          return <li key={message.id}>
+       </li>
+        })}
+        </ul>        
       </div>
     );
   }
