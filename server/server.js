@@ -12,7 +12,7 @@ app.use(express.static('build'));
 /** ---------- EXPRESS ROUTES ---------- **/
 app.get('/messages', (req, res) => {
     console.log('GET /messages');
-    pool.query('SELECT "users"."name", "messages"."message", "messages"."timestamp", "bars"."name" FROM "users" JOIN "messages" ON "users"."id" = "messages"."user_id" JOIN "bars" ON "bars"."id" = "messages"."bar_id" ORDER BY "users"."name";').then((result) => {
+    pool.query('SELECT "users"."name" as "users_name", "messages"."message", "messages"."timestamp", "bars"."name" FROM "users" JOIN "messages" ON "users"."id" = "messages"."user_id" JOIN "bars" ON "bars"."id" = "messages"."bar_id" ORDER BY "users_name";').then((result) => {
         res.send(result.rows);
     }).catch((error) => {
         console.log('Error GET /messages', error)

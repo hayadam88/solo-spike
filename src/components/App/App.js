@@ -34,9 +34,11 @@ class App extends Component {
       
         {this.props.reduxStore.messageReducer.map(message => {
           return <div key={message.message}>
+            <p>User Name: {message.users_name}</p>
             <p>Bar Name: {message.name}</p>
             <p>Time: {message.timestamp}</p>
             <p>Message: {message.message}</p>
+            <hr/>     
         </div>
         })}       
       </section>
