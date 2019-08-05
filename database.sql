@@ -1,34 +1,44 @@
-CREATE TABLE "pizza" (
-	"id" SERIAL PRIMARY KEY,
-	"name" VARCHAR(100) NOT NULL,
-	"description" VARCHAR(1000) NOT NULL,
-	"price" NUMERIC (20, 2) NOT NULL,
-	"image_path" VARCHAR(1000) NOT NULL
+CREATE TABLE "users" (
+	"id" serial primary key,
+	"name" varchar(80) not null,
+	"password" varchar(80) not null
 );
 
-INSERT INTO "pizza" ("name", "description", "price", "image_path")
-VALUES ('Tomato Soup','If you like pizza, but you hate the toppings, the cheese, and the crust, you''ll love this!',12.99,'images/pizza_photo.png'),
-('Onomatopizza','We start with a WHOMP of dough, SPLAT some marinara on it, PLOP enough cheese on there to make a mouse PEEP. Top it off with some SIZZLING bacon, and BOOM there it is! We guarantee you''ll SMACK your lips.',14.99,'images/pizza_photo.png'),
-('Pepperoni','Classic pizza with cheese and pepperoni. Baked with a traditional crust in our brick oven.',14.99,'images/pizza_photo.png'),
-('Over the Rainbow','Taste the rainbow! One ingredient of each color: pepperoni, doritos, pineapple, olives, cheese, peppers and onion. Complimentary water served in a spray bottle to taste an actual rainbow.',19.99,'images/pizza_photo.png'),
-('Chinese Firedragon','Pepperoni, pineapple and banana peppers.',15.99,'images/pizza_photo.png'),
-('Bad Date','Garlic, Onion and Pepperoni.',24.99,'images/pizza_photo.png'),
-('Another Little Pizza My Heart', 'Cheese Pizza. Personal size only.', 5.99,'images/pizza_photo.png');
+INSERT INTO "users" ("name", "password")
+VALUES ('Adam', 'Adam'),
+('Sean', 'Sean');
 
-CREATE TABLE "orders" (
-	"id" SERIAL PRIMARY KEY,
-	"customer_name" VARCHAR (1000) NOT NULL,
-	"street_address" VARCHAR(1000) NOT NULL,
-	"city" VARCHAR(1000) NOT NULL,
-	"zip" VARCHAR(20) NOT NULL,
-	"type" VARCHAR(100) NOT NULL,
-	"total" NUMERIC (20, 2) NOT NULL,
-	"time" TIMESTAMP DEFAULT NOW() NOT NULL
+CREATE TABLE "messages" (
+	"id" serial primary key,
+	"bar_id" integer not null,
+	"user_id" integer not null
+	"timestamp" timestamp,
+	"message" varchar(80) not null
 );
 
-CREATE TABLE "line_item" (
-	"id" SERIAL PRIMARY KEY,
-	"order_id" INT REFERENCES "orders" ON DELETE CASCADE,
-	"pizza_id" INT REFERENCES "pizza",
-	"quantity" INT NOT NULL
+INSERT INTO "messages" ("bar_id", "user_id", "timestamp", "message")
+VALUES ('1', '1', '2019-8-02 10:23:54', 'I had a great time here');
+
+INSERT INTO "messages" ("bar_id", "user_id", "timestamp", "message")
+VALUES ('2', '1', '2019-8-04 11:23:54', 'I had a horrible time here'),
+('1', '2', '2019-8-02 10:23:54', 'Adam had a great time here'),
+('2', '2', '2019-8-02 10:23:54', 'Adam had a terrible time here');
+
+SELECT "users"."name" as "users_name", 
+"messages"."message", "messages"."timestamp", "bars"."name" 
+FROM "users" JOIN "messages" ON "users"."id" = "messages"."user_id" 
+JOIN "bars" ON "bars"."id" = "messages"."bar_id" ORDER BY "users_name";
+
+CREATE TABLE "bars" (
+	"id" serial primary key,
+	"name" varchar(80) not null,
+	"address" varchar(120) not null,
+	"notes" varchar(120) not null,
+	"phone" varchar(12),
+	"image_url" varchar(240)
 );
+INSERT INTO "bars" ("name", "address", "notes", "phone", "image_url")
+VALUES ('Bierstube', '123 Oakdale', '$5 Pint glasses', '651-555-6969', 'https://cdn.beeradvocate.com/im/c_beer_image.gif')
+
+INSERT INTO "bars" ("name", "address", "notes", "phone", "image_url")
+VALUES ('Nuemanns', '123 North St. Paul', '$3.00 Hamms', '651-555-6999', 'https://cdn.beeradvocate.com/im/c_beer_image.gif')
