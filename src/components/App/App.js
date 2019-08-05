@@ -25,18 +25,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <h1>Hi there!</h1>
+      <>
+      <section className="App">
+        <h1>Message Feed!</h1>
 
 
 
-        <ul>
+      
         {this.props.reduxStore.messageReducer.map(message => {
-          return <li key={message.id}>
-       </li>
-        })}
-        </ul>        
-      </div>
+          return <div key={message.message}>
+            <p>Bar Name: {message.name}</p>
+            <p>Time: {message.timestamp}</p>
+            <p>Message: {message.message}</p>
+        </div>
+        })}       
+      </section>
+      </>
     );
   }
 }
